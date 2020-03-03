@@ -15,6 +15,7 @@ import warnings
 warnings.simplefilter("ignore", DeprecationWarning)
 
 from .mwcommands import mw_utils as utils
+from .mwcommands import mw_riverstuff as riverstuff
 from .mwcommands import *
 
 
@@ -189,11 +190,7 @@ class MediawikerShowPageCommand(sublime_plugin.TextCommand):
 
         if not text:
             utils.error_message('Page [[{}]] does not exist. You can create it..'.format(self.title))
-            text = utils.comment(
-                'New wiki page: Remove this with text of the new page',
-                page_name=self.title,
-                page_namespace=page_namespace
-            )
+            text = riverstuff.get_new_text(title, page_namespace)
 
         view.run_command(utils.cmd('insert_text'), {'position': 0, 'text': text, 'with_erase': True})
 
